@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+LINE=$1
+FILENAME=$2
+JSON_PATH=".data.$FILENAME"
+
+CFG="$(hostname)-configmap"
+
+DATAFILE="/tmp/$FILENAME"
+
+kubectl get configmap "$CFG" -o jsonpath="{$JSON_PATH}" > "$DATAFILE"
+echo "$LINE" >> "$DATAFILE"
+
+KUBE_CREATE="kubectl create configmap "$CFG" --from-file $DATAFILE -o yaml --dry-run"
+$KUBE_CREATE | kubectl apply -f -
+
+rm "$DATAFILE"

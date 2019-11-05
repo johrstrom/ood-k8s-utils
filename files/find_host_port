@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 PORT_CFG=$(kubectl get services $(hostname)-service -o jsonpath="{.spec.ports[0].nodePort}")
-HOST_CFG=$(kubectlet pods $(hostname) -o jsonpath="{.status.hostIP}")
+HOST_CFG=$(kubectl get pods $(hostname) -o jsonpath="{.status.hostIP}")
 
-export $HOST_CFG
-export $PORT_CFG
+export HOST_CFG=$HOST_CFG
+export PORT_CFG=$PORT_CFG
