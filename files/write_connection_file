@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+find_host_and_port
+create_passwd
+
+CONNECTION_FILE=$1/connection.yml
+
+echo "host: $HOST_CFG" >> $CONNECTION_FILE
+echo "port: $PORT_CFG" >> $CONNECTION_FILE
+echo "password: $PASSWORD" >> $CONNECTION_FILE
