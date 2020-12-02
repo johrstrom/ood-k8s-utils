@@ -11,11 +11,19 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-      - name: login to dockerhub
-        run: docker login -u jeffohrstrom -p ${{ secrets.DOCKER_HUB_TOKEN }}
-      - name: docker build
-        run: docker build -t ood-k8s-utils:latest .
-      - name: tag latest as git tag
+      - name: setup the environment
         run: |
           TAG=$(echo $GITHUB_REF | awk -F'/' '{ print $3}')
-          docker tag ood-k8s-utils:latest ood-k8s-utils:$TAG
+          REPO="docker.io/jeffohrstrom"
+          echo "LATEST_IMG=$REPO/ood-k8s-utils:latest" >> $GITHUB_ENV
+          echo "VERSIONED_IMG=$REPO/ood-k8s-utils:$TAG" >> $GITHUB_ENV
+      - name: docker build and tag
+        run: | 
+          docker build -t $LATEST_IMG .
+          docker tag $LATEST_IMG $VERSIONED_IMG
+      - name: login to dockerhub
+        run: docker login -u jeffohrstrom -p ${{ secrets.DOCKER_HUB_TOKEN }}
+      - name: push images to dockerhub
+        run: |
+          docker push $LATEST_IMG
+          docker push $VERSIONED_IMG
