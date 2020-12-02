@@ -15,9 +15,9 @@ jobs:
         run: docker login -u jeffohrstrom -p ${{ secrets.DOCKER_HUB_TOKEN }}
       - name: docker build
         run: docker build -t ood-k8s-utils:latest .
-      - name: tag 
+      - name: tag latest as git tag
         run: |
-          if [ -z "$GITHUB_REF" ]; then
-            TAG==$(echo $GITHUB_REF | awk -F'/' '{ print $3}')
+          if [ -n "$GITHUB_REF" ]; then
+            TAG=$(echo $GITHUB_REF | awk -F'/' '{ print $3}')
             docker tag ood-k8s-utils:latest ood-k8s-utils:$TAG
           fi
