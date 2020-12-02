@@ -16,4 +16,5 @@ jobs:
       - name: docker build
         run: docker build -t ood-k8s-utils:latest .
       - name: tag 
-        run: [ -z "$GITHUB_REF" ] || docker tag ood-k8s-utils:latest ood-k8s-utils:$GITHUB_REF
+        run: |
+          [ -z "$GITHUB_REF" ] || docker tag ood-k8s-utils:latest ood-k8s-utils:$GITHUB_REF
