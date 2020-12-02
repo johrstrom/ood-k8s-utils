@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 SALT="$(create_passwd 16)"
-PASSWORD="$(kubectl get secrets $(hostname)-secret -o jsonpath="{.data.password}" | base64 -d)"
 PASSWORD_SHA1="$(echo -n "${PASSWORD}${SALT}" | openssl dgst -sha1 | awk '{print $NF}')"
 
 export PASSWORD_SHA1=$PASSWORD_SHA1
