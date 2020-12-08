@@ -7,6 +7,8 @@ IP_REX="([0-9]{1,3}\.)+([0-9]{1,3})"
 
 if [[ $HOST_CFG =~ $IP_REX ]]; then
   HOST_CFG=$(dig +short -x $HOST_CFG)
+  # now remove the trailing .
+  HOST_CFG=${HOST_CFG::-1}
 fi
 
 
