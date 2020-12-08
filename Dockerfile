@@ -4,6 +4,6 @@ RUN wget https://storage.googleapis.com/kubernetes-release/release/v1.16.1/bin/l
     mv kubectl /bin/kubectl; \
     chmod +x /bin/kubectl;
 
-RUN apk add openssl bash
+RUN apk add openssl bash bind-tools
 
 COPY files /bin
